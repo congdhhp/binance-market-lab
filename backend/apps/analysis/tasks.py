@@ -44,6 +44,10 @@ def compute_indicators_task(self, symbol_id: int, interval: str = '1h', lookback
             'open_time', 'open', 'high', 'low', 'close', 'volume'
         )))
         
+        # Convert Decimal to float for indicator computations
+        for col in ['open', 'high', 'low', 'close', 'volume']:
+            df[col] = df[col].astype(float)
+        
         # Reverse to chronological order
         df = df.iloc[::-1].reset_index(drop=True)
         
