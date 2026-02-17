@@ -222,6 +222,84 @@ export interface BacktestMetrics {
   recovery_factor: string;
 }
 
+// ============= Orderbook Analytics Types (Phase 4) =============
+
+export interface OrderbookAnalysis {
+  id: number;
+  symbol: number;
+  symbol_name?: string;
+  timestamp: string;
+  bid_ask_spread: string;
+  spread_bps: string;
+  bid_depth_10: string;
+  ask_depth_10: string;
+  total_depth_10: string;
+  bid_depth_100: string;
+  ask_depth_100: string;
+  total_depth_100: string;
+  orderbook_imbalance: string;
+  vwap_bid: string;
+  vwap_ask: string;
+  vwap_mid: string;
+  liquidity_score: string;
+  created_at: string;
+}
+
+export interface ImbalanceAlert {
+  id: number;
+  symbol: number;
+  symbol_name?: string;
+  timestamp: string;
+  alert_type: 'bid_heavy' | 'ask_heavy' | 'balanced' | 'critical';
+  imbalance_ratio: string;
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  description: string;
+  is_resolved: boolean;
+  resolved_at: string | null;
+  created_at: string;
+}
+
+export interface RiskMetrics {
+  symbol_id: number;
+  symbol_name?: string;
+  start_date: string;
+  end_date: string;
+  var_95: number | null;
+  var_99: number | null;
+  cvar_95: number | null;
+  cvar_99: number | null;
+  sharpe_ratio: number | null;
+  sortino_ratio: number | null;
+  calmar_ratio: number | null;
+  max_drawdown: number | null;
+  max_drawdown_duration_days: number | null;
+  volatility: number | null;
+  downside_deviation: number | null;
+  beta: number | null;
+  alpha: number | null;
+}
+
+export interface CorrelationMatrix {
+  start_date: string;
+  end_date: string;
+  correlation_matrix: { [key: string]: { [key: string]: number } };
+  symbol_names: string[];
+  pca_variance_explained?: number[];
+  pca_components?: number[][];
+}
+
+export interface RegimeDetection {
+  symbol_id: number;
+  symbol_name?: string;
+  lookback_days: number;
+  current_regime: number;
+  regime_name: string;
+  regime_probability: number;
+  transition_matrix: number[][];
+  regime_characteristics: { [key: string]: any };
+  timestamp: string;
+}
+
 // ============= API Response Types =============
 
 export interface PaginatedResponse<T> {

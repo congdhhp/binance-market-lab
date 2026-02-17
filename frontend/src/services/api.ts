@@ -16,6 +16,11 @@ import type {
   BacktestRun,
   Trade,
   BacktestMetrics,
+  OrderbookAnalysis,
+  ImbalanceAlert,
+  RiskMetrics,
+  CorrelationMatrix,
+  RegimeDetection,
   PaginatedResponse,
 } from '../types';
 
@@ -224,6 +229,83 @@ class ApiService {
     interval?: string;
   }): Promise<any> {
     const { data } = await this.client.get('/api/v1/backtest/stats/', { params });
+    return data;
+  }
+
+  // ============= Orderbook Analytics API (Phase 4) =============
+
+  async getOrderbookAnalyses(params?: {
+    symbol?: number;
+    start_time?: string;
+    end_time?: string;
+    limit?: number;
+    offset?: number;
+  }): Promise<PaginatedResponse<OrderbookAnalysis>> {
+    const { data } = await this.client.get('/api/v1/orderbook/analyses/', { params });
+    return data;
+  }
+
+  async getOrderbookAnalysis(id: number): Promise<OrderbookAnalysis> {
+    const { data } = await this.client.get(`/api/v1/orderbook/analyses/${id}/`);
+    return data;
+  }
+
+  async analyzeOrderbook(symbolId: number): Promise<OrderbookAnalysis> {
+    const { data } = await this.client.post('/api/v1/orderbook/analyze/', {
+      symbol_id: symbolId,
+    });
+    return data;
+  }
+
+  async getImbalanceAlerts(params?: {
+    symbol?: number;
+    alert_type?: string;
+    severity?: string;
+    is_resolved?: boolean;
+    start_time?: string;
+    end_time?: string;
+    limit?: number;
+    offset?: number;
+  }): Promise<PaginatedResponse<ImbalanceAlert>> {
+    const { data } = await this.client.get('/api/v1/orderbook/alerts/', { params });
+    return data;
+  }
+
+  async getImbalanceAlert(id: number): Promise<ImbalanceAlert> {
+    const { data } = await this.client.get(`/api/v1/orderbook/alerts/${id}/`);
+    return data;
+  }
+
+  async getRiskMetrics(params: {
+    symbol_id: number;
+    start_date: string;
+    end_date: string;
+    confidence_level?: number;
+    risk_free_rate?: number;
+    benchmark_returns?: number[];
+  }): Promise<RiskMetrics> {
+    const { data } = await this.client.post('/api/v1/orderbook/risk-metrics/', params);
+    return data;
+  }
+
+  async getCorrelationMatrix(params: {
+    symbol_ids: number[];
+    start_date: string;
+    end_date: string;
+    method?: 'pearson' | 'spearman' | 'kendall';
+    include_pca?: boolean;
+  }): Promise<CorrelationMatrix> {
+    const { data } = await this.client.post('/api/v1/orderbook/correlation/', params);
+    return data;
+  }
+
+  async detectRegime(params: {
+    symbol_id: number;
+    lookback_days?: number;
+    n_regimes?: number;
+    features?: string[];
+  }): Promise<RegimeDetection> {
+    const { data } = await this.client.post('/api/v1/orderbook/regime-detection/', params);
     return data;
   }
 

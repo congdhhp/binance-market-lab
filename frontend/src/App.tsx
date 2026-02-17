@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import MarketData from './pages/MarketData';
 import TechnicalAnalysis from './pages/TechnicalAnalysis';
 import Backtest from './pages/Backtest';
+import OrderbookAnalytics from './pages/OrderbookAnalytics';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,6 +26,7 @@ function App() {
             <Route path="/market-data" element={<MarketData />} />
             <Route path="/analysis" element={<TechnicalAnalysis />} />
             <Route path="/backtest" element={<Backtest />} />
+            <Route path="/orderbook" element={<OrderbookAnalytics />} />
           </Routes>
         </Layout>
       </Router>

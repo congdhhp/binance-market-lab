@@ -42,6 +42,12 @@ const Navbar = () => {
               >
                 Backtest
               </Link>
+              <Link
+                to="/orderbook"
+                className={`px-4 py-2 rounded transition ${isActive('/orderbook')}`}
+              >
+                Orderbook Analytics
+              </Link>
             </div>
           </div>
 
