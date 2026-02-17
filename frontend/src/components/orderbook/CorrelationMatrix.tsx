@@ -161,12 +161,12 @@ export default function CorrelationMatrix({ symbols, timeRange }: Props) {
                   </tr>
                 </thead>
                 <tbody>
-                  {matrix.symbol_names.map((rowName, rowIdx) => (
+                  {matrix.symbol_names.map((rowName) => (
                     <tr key={rowName}>
                       <td className="p-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                         {rowName}
                       </td>
-                      {matrix.symbol_names.map((colName, colIdx) => {
+                      {matrix.symbol_names.map((colName) => {
                         const value = matrix.correlation_matrix[rowName]?.[colName] || 0;
                         return (
                           <td key={colName} className="p-2">

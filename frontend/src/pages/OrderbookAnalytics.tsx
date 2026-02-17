@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../services/api';
-import type { Symbol, OrderbookAnalysis, ImbalanceAlert } from '../types';
+import type { Symbol } from '../types';
 
 // Components
 import OrderbookDepth from '../components/orderbook/OrderbookDepth';

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { api } from '../../services/api';
 import type { Symbol, RiskMetrics as RiskMetricsType } from '../../types';
 

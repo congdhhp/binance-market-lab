@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import api from '../services/api';
-import { formatNumber, formatPrice, formatPercent, formatVolume, getColorForChange } from '../utils/formatters';
-import type { Symbol, Ticker24h } from '../types';
+import { formatPrice, formatPercent, formatVolume, getColorForChange } from '../utils/formatters';
+import type { Symbol } from '../types';
 
 const Dashboard = () => {
   const [stats, setStats] = useState<any>(null);

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import api from '../services/api';
 import { formatPrice, formatPercent, formatNumber, formatDateTime, getColorForChange, intervals } from '../utils/formatters';
@@ -15,8 +15,6 @@ const Backtest = () => {
     start_date: '',
     end_date: '',
   });
-
-  const queryClient = useQueryClient();
 
   // Fetch strategies
   const { data: strategiesData } = useQuery({
