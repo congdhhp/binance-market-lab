@@ -24,9 +24,11 @@ ccxt>=4.2.0
 pandas>=2.1.4
 numpy>=1.26.3
 ta>=0.11.0
+scipy>=1.11.4
 
 # Machine Learning
 scikit-learn>=1.4.0
+hmmlearn>=0.3.0
 
 # NLP & Sentiment
 transformers>=4.36.2
