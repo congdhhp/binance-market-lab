@@ -110,6 +110,13 @@ class BacktestEngine:
             self.backtest_run.status = 'completed'
             self.backtest_run.completed_at = timezone.now()
             self.backtest_run.final_capital = Decimal(str(self.cash))
+            
+            # Calculate total return
+            if self.backtest_run.initial_capital and self.backtest_run.initial_capital > 0:
+                returns = ((self.backtest_run.final_capital - self.backtest_run.initial_capital) 
+                          / self.backtest_run.initial_capital) * 100
+                self.backtest_run.total_return = returns
+            
             self.backtest_run.save()
             
             logger.info(f"Backtest completed: {self.backtest_run.name}")
@@ -304,6 +311,11 @@ class BacktestEngine:
             return
         
         trade = self.current_trade
+        
+        # Skip exit checks on the same candle as entry to allow position to develop
+        if timestamp == trade.entry_time:
+            return
+        
         high = float(kline['high'])
         low = float(kline['low'])
         close = float(kline['close'])
@@ -408,10 +420,12 @@ class BacktestEngine:
         if len(losing_trades) > 0:
             self.backtest_run.avg_loss = Decimal(str(abs(losing_trades['pnl'].mean())))
         
-        # Profit factor
-        if (self.backtest_run.avg_win and self.backtest_run.avg_loss and 
-            self.backtest_run.avg_loss > 0):
-            self.backtest_run.profit_factor = self.backtest_run.avg_win / self.backtest_run.avg_loss
+        # Profit factor (total wins / total losses)
+        if len(winning_trades) > 0 and len(losing_trades) > 0:
+            total_wins = winning_trades['pnl'].sum()
+            total_losses = abs(losing_trades['pnl'].sum())
+            if total_losses > 0:
+                self.backtest_run.profit_factor = Decimal(str(total_wins / total_losses))
         
         # Calculate max drawdown from equity curve
         equity_values = [point['value'] for point in self.equity_curve]
